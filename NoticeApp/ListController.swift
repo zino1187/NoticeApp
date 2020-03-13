@@ -145,7 +145,7 @@ class ListController: UITableViewController {
             noticeArray.remove(at: indexPath.row)
             
             //웹서버에 삭제를 요청한다!
-            requestDel2(notice_id:notice.notice_id)
+            requestDel(notice_id:notice.notice_id)
             
             //뷰를 삭제 ( 디자인 제거)
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -187,31 +187,10 @@ class ListController: UITableViewController {
                 self.tableView.reloadData()
             }
             */
-        })
-    }
-
-    
-    func requestDel2(notice_id:Int){
-        var urlComponent = URLComponents(string: "http://localhost:7777/notice/del")!
-        
-        //딕셔너리 생성
-        var params = [URLQueryItem]()
-        
-        params.append(URLQueryItem(name: "notice_id", value: String(notice_id)))
-
-        urlComponent.queryItems = params//파라미터 적용
-        
-        var urlRequest = URLRequest(url: urlComponent.url!)
-        urlRequest.httpMethod = "GET"
-        
-        let urlSession = URLSession.shared
-        urlSession.dataTask(with: urlRequest, completionHandler: {(data, response, error) in
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                
-            }
             }).resume()
     }
+
+
     
     /*
     // Override to support rearranging the table view.
